@@ -1,0 +1,242 @@
+/* ============================================
+   SETTINGS PAGE - MODERN DESIGN
+   ============================================ */
+
+.settings-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 100%);
+  padding: 40px 20px;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.settings-container {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.settings-container h1 {
+  font-size: 32px;
+  color: white;
+  margin-bottom: 40px;
+  animation: slideUp 0.6s ease-out;
+}
+
+/* ============= SETTINGS CARD ============= */
+
+.settings-card {
+  background: rgba(20, 25, 50, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 22px;
+  backdrop-filter: blur(10px);
+  animation: slideUp 0.6s ease-out;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.settings-card h2 {
+  margin-top: 0;
+  margin-bottom: 24px;
+  font-size: 18px;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ============= SETTINGS GROUP ============= */
+
+.settings-group {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.help-btn {
+  padding: 12px 16px;
+  background: rgba(102, 126, 234, 0.15);
+  border: 1px solid rgba(102, 126, 234, 0.3);
+  border-radius: 8px;
+  color: #667eea;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: left;
+}
+
+.help-btn:hover {
+  background: rgba(102, 126, 234, 0.3);
+  border-color: #667eea;
+  transform: translateX(4px);
+}
+/* ============= SETTING ITEM ============= */
+
+.setting-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.setting-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.setting-info h4 {
+  margin: 0 0 4px;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.setting-info p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 12px;
+}
+
+/* ============= TOGGLE SWITCH ============= */
+
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 28px;
+  flex-shrink: 0;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.2);
+  transition: 0.4s;
+  border-radius: 28px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 22px;
+  width: 22px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #667eea;
+}
+
+input:checked + .slider:before {
+  transform: translateX(22px);
+}
+
+/* ============= TIME INPUT ============= */
+
+.time-input {
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.time-input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 10px rgba(102, 126, 234, 0.2);
+}
+
+/* ============= HELP LINKS ============= */
+
+.help-link {
+  display: inline-block;
+  padding: 10px 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  color: #667eea;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  margin-right: 8px;
+  margin-bottom: 8px;
+}
+
+.help-link:hover {
+  background: rgba(102, 126, 234, 0.2);
+  border-color: #667eea;
+  transform: translateY(-2px);
+}
+
+/* ============= SAVE BUTTON ============= */
+
+.save-settings-btn {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 40px rgba(102, 126, 234, 0.3);
+}
+
+.save-settings-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 50px rgba(102, 126, 234, 0.4);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* ============= RESPONSIVE ============= */
+
+@media (max-width: 480px) {
+  .settings-container {
+    padding: 0;
+  }
+
+  .settings-card {
+    padding: 20px;
+    border-radius: 10px;
+  }
+
+  .setting-item {
+    flex-direction: column;
+    text-align: left;
+    gap: 12px;
+  }
+
+  .toggle-switch {
+    align-self: flex-start;
+  }
+}

@@ -1,0 +1,557 @@
+/* ============================================
+   STATUS PAGE - SYSTEM MONITORING
+   ============================================ */
+
+.status-page {
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0a0e27 0%, #1a1a2e 100%);
+  padding: 40px 20px;
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0; 
+    transform: translateY(20px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* ============= CONTAINER ============= */
+
+.status-container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* ============= HEADER ============= */
+
+.status-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  margin-bottom: 40px;
+  animation: slideUp 0.6s ease-out;
+}
+
+.status-back-btn {
+  padding: 10px 16px;
+  background: rgba(102, 126, 234, 0.2);
+  border: 1px solid rgba(102, 126, 234, 0.4);
+  border-radius: 8px;
+  color: #667eea;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-top: 5px;
+}
+
+.status-back-btn:hover {
+  background: rgba(102, 126, 234, 0.4);
+  border-color: #667eea;
+  transform: translateX(-3px);
+}
+
+.status-title-section {
+  flex: 1;
+}
+
+.status-title-section h1 {
+  margin: 0 0 8px;
+  font-size: 36px;
+  color: white;
+  font-weight: 700;
+}
+
+.status-title-section p {
+  margin: 0;
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* ============= OVERALL STATUS ============= */
+
+.overall-status {
+  background: linear-gradient(135deg, rgba(76, 175, 80, 0.15), rgba(76, 175, 80, 0.05));
+  border: 1px solid rgba(76, 175, 80, 0.3);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 40px;
+  text-align: center;
+  animation: slideUp 0.6s ease-out 0.1s both;
+}
+
+.status-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.status-pulse {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #4caf50;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.status-indicator.operational .status-label {
+  color: #4caf50;
+}
+
+.status-message {
+  margin: 0;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* ============= METRICS ============= */
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.metric-card {
+  background: rgba(20, 25, 50, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  transition: all 0.3s ease;
+  animation: slideUp 0.6s ease-out;
+}
+
+.metric-card:hover {
+  background: rgba(20, 25, 50, 0.8);
+  border-color: rgba(102, 126, 234, 0.3);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(102, 126, 234, 0.1);
+}
+
+.metric-icon {
+  font-size: 32px;
+  margin-bottom: 12px;
+}
+
+.metric-card h3 {
+  margin: 0 0 8px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+}
+
+.metric-value {
+  margin: 0 0 4px;
+  font-size: 24px;
+  font-weight: 700;
+  color: white;
+}
+
+.metric-trend {
+  margin: 0;
+  font-size: 12px;
+  color: #4caf50;
+  font-weight: 600;
+}
+
+/* ============= SERVICES ============= */
+
+.services-section {
+  margin-bottom: 40px;
+  animation: slideUp 0.6s ease-out 0.15s both;
+}
+
+.services-section h2 {
+  margin: 0 0 24px;
+  font-size: 22px;
+  color: white;
+  font-weight: 600;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 18px;
+}
+
+.service-card {
+  background: rgba(20, 25, 50, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  padding: 18px;
+  transition: all 0.3s ease;
+}
+
+.service-card.operational {
+  border-left: 4px solid #4caf50;
+}
+
+.service-card:hover {
+  background: rgba(20, 25, 50, 0.8);
+  border-color: rgba(102, 126, 234, 0.2);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.1);
+}
+
+.service-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.service-indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #4caf50;
+  flex-shrink: 0;
+}
+
+.service-emoji {
+  font-size: 20px;
+}
+
+.service-card h3 {
+  margin: 0;
+  font-size: 16px;
+  color: white;
+  font-weight: 600;
+}
+
+.service-details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.service-details p {
+  margin: 0;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.service-details strong {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.status-badge {
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.status-badge.operational {
+  background: rgba(76, 175, 80, 0.2);
+  color: #4caf50;
+  border: 1px solid rgba(76, 175, 80, 0.3);
+}
+
+/* ============= INCIDENTS ============= */
+
+.incidents-section {
+  margin-bottom: 40px;
+  animation: slideUp 0.6s ease-out 0.2s both;
+}
+
+.incidents-section h2 {
+  margin: 0 0 24px;
+  font-size: 22px;
+  color: white;
+  font-weight: 600;
+}
+
+.incidents-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.incident-item {
+  background: rgba(20, 25, 50, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  padding: 18px;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  transition: all 0.3s ease;
+}
+
+.incident-item:hover {
+  background: rgba(20, 25, 50, 0.8);
+  border-color: rgba(102, 126, 234, 0.2);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.1);
+}
+
+.incident-badge {
+  font-size: 24px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.incident-details {
+  flex: 1;
+}
+
+.incident-details h3 {
+  margin: 0 0 6px;
+  font-size: 15px;
+  color: white;
+  font-weight: 600;
+}
+
+.incident-time {
+  margin: 0 0 6px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.incident-impact {
+  margin: 0;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.incident-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.incident-status,
+.incident-duration {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 500;
+}
+
+.no-incidents {
+  text-align: center;
+  padding: 40px 20px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 14px;
+}
+
+/* ============= PERFORMANCE ============= */
+
+.performance-section {
+  margin-bottom: 40px;
+  animation: slideUp 0.6s ease-out 0.25s both;
+}
+
+.performance-section h2 {
+  margin: 0 0 24px;
+  font-size: 22px;
+  color: white;
+  font-weight: 600;
+}
+
+.performance-card {
+  background: rgba(20, 25, 50, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.performance-graph {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+  height: 150px;
+  margin-bottom: 16px;
+}
+
+.graph-bar {
+  flex: 1;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-radius: 4px 4px 0 0;
+  transition: all 0.3s ease;
+  min-height: 20px;
+  opacity: 0.8;
+}
+
+.graph-bar:hover {
+  opacity: 1;
+  transform: scaleY(1.05);
+}
+
+.performance-note {
+  margin: 0;
+  text-align: center;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* ============= SUBSCRIBE & SUPPORT ============= */
+
+.subscribe-section,
+.status-support {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.15), rgba(118, 75, 162, 0.15));
+  border: 1px solid rgba(102, 126, 234, 0.3);
+  border-radius: 12px;
+  padding: 24px;
+  text-align: center;
+  margin-bottom: 20px;
+  animation: slideUp 0.6s ease-out 0.3s both;
+}
+
+.subscribe-section h3,
+.status-support h3 {
+  margin: 0 0 8px;
+  font-size: 18px;
+  color: white;
+  font-weight: 600;
+}
+
+.subscribe-section p,
+.status-support p {
+  margin: 0 0 16px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.subscribe-options {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.subscribe-btn {
+  padding: 10px 20px;
+  background: rgba(102, 126, 234, 0.2);
+  border: 1px solid rgba(102, 126, 234, 0.4);
+  border-radius: 8px;
+  color: #667eea;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 13px;
+  transition: all 0.3s ease;
+}
+
+.subscribe-btn:hover {
+  background: rgba(102, 126, 234, 0.4);
+  border-color: #667eea;
+  transform: translateY(-1px);
+}
+
+.contact-link {
+  background: none;
+  border: none;
+  color: #667eea;
+  cursor: pointer;
+  font-weight: 600;
+  text-decoration: underline;
+  padding: 0;
+  transition: all 0.2s ease;
+}
+
+.contact-link:hover {
+  color: #764ba2;
+}
+
+/* ============= RESPONSIVE ============= */
+
+@media (max-width: 768px) {
+  .status-page {
+    padding: 24px 16px;
+  }
+
+  .status-header {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .status-back-btn {
+    align-self: flex-start;
+  }
+
+  .status-title-section h1 {
+    font-size: 28px;
+  }
+
+  .metrics-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .incident-item {
+    flex-direction: column;
+  }
+
+  .incident-meta {
+    flex-direction: row;
+    text-align: left;
+  }
+
+  .subscribe-options {
+    flex-direction: column;
+  }
+
+  .subscribe-btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .status-page {
+    padding: 16px 12px;
+  }
+
+  .status-title-section h1 {
+    font-size: 24px;
+  }
+
+  .metrics-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .performance-graph {
+    gap: 4px;
+  }
+
+  .graph-bar {
+    border-radius: 2px 2px 0 0;
+  }
+
+  .service-card {
+    padding: 14px;
+  }
+
+  .incident-item {
+    padding: 14px;
+  }
+
+  .subscribe-section,
+  .status-support {
+    padding: 18px;
+  }
+}

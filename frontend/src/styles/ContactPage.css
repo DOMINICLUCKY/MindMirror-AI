@@ -1,0 +1,443 @@
+/* ============================================
+   CONTACT PAGE - SUPPORT & MESSAGING
+   ============================================ */
+
+.contact-page {
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0a0e27 0%, #1a1a2e 100%);
+  padding: 40px 20px;
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0; 
+    transform: translateY(20px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+/* ============= CONTAINER ============= */
+
+.contact-container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* ============= HEADER ============= */
+
+.contact-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  margin-bottom: 40px;
+  animation: slideUp 0.6s ease-out;
+}
+
+.contact-back-btn {
+  padding: 10px 16px;
+  background: rgba(102, 126, 234, 0.2);
+  border: 1px solid rgba(102, 126, 234, 0.4);
+  border-radius: 8px;
+  color: #667eea;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-top: 5px;
+}
+
+.contact-back-btn:hover {
+  background: rgba(102, 126, 234, 0.4);
+  border-color: #667eea;
+  transform: translateX(-3px);
+}
+
+.contact-title-section {
+  flex: 1;
+}
+
+.contact-title-section h1 {
+  margin: 0 0 8px;
+  font-size: 36px;
+  color: white;
+  font-weight: 700;
+}
+
+.contact-title-section p {
+  margin: 0;
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* ============= GRID LAYOUT ============= */
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  margin-bottom: 40px;
+}
+
+/* ============= FORM SECTION ============= */
+
+.contact-form-section {
+  animation: slideUp 0.6s ease-out 0.1s both;
+}
+
+.contact-form-section h2,
+.contact-channels-section h2 {
+  margin: 0 0 24px;
+  font-size: 22px;
+  color: white;
+  font-weight: 600;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* ============= FORM GROUP ============= */
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+  width: 100%;
+  padding: 12px 14px;
+  background: rgba(20, 25, 50, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  color: white;
+  font-size: 14px;
+  font-family: inherit;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.form-input::placeholder,
+.form-select::placeholder,
+.form-textarea::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: #667eea;
+  background: rgba(20, 25, 50, 0.8);
+  box-shadow: 0 0 20px rgba(102, 126, 234, 0.3);
+}
+
+.form-input:disabled,
+.form-select:disabled,
+.form-textarea:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: rgba(20, 25, 50, 0.4);
+}
+
+.form-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ffffff' d='M1.414 3.414L6 8l4.586-4.586'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 38px;
+}
+
+/* ============= FORM ROW ============= */
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* ============= TEXTAREA ============= */
+
+.form-textarea {
+  resize: none;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.5;
+  min-height: 140px;
+}
+
+.char-count {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.4);
+  margin: 4px 0 0;
+}
+
+/* ============= MESSAGES ============= */
+
+.message {
+  padding: 12px 14px;
+  border-radius: 10px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  animation: slideUp 0.3s ease-out;
+}
+
+.error-message {
+  background: rgba(245, 87, 108, 0.2);
+  border: 1px solid rgba(245, 87, 108, 0.4);
+  color: #ff9a9e;
+}
+
+.success-message {
+  background: rgba(76, 175, 80, 0.2);
+  border: 1px solid rgba(76, 175, 80, 0.4);
+  color: #a5d6a7;
+}
+
+/* ============= SUBMIT BUTTON ============= */
+
+.contact-submit-btn {
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+  margin-top: 8px;
+}
+
+.contact-submit-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+}
+
+.contact-submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ============= SUPPORT CHANNELS ============= */
+
+.contact-channels-section {
+  animation: slideUp 0.6s ease-out 0.15s both;
+}
+
+.support-channels {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.support-channel {
+  background: rgba(20, 25, 50, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  padding: 18px;
+  text-align: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.support-channel:hover {
+  background: rgba(20, 25, 50, 0.8);
+  border-color: rgba(102, 126, 234, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(102, 126, 234, 0.1);
+}
+
+.channel-icon {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.support-channel h3 {
+  margin: 8px 0;
+  font-size: 15px;
+  color: white;
+  font-weight: 600;
+}
+
+.channel-info {
+  margin: 4px 0;
+  font-size: 13px;
+  color: #667eea;
+  font-weight: 500;
+}
+
+.channel-details {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* ============= FAQ LINK ============= */
+
+.contact-faq-link {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.15), rgba(118, 75, 162, 0.15));
+  border: 1px solid rgba(102, 126, 234, 0.3);
+  border-radius: 10px;
+  padding: 18px;
+  text-align: center;
+}
+
+.contact-faq-link h3 {
+  margin: 0 0 8px;
+  font-size: 15px;
+  color: white;
+  font-weight: 600;
+}
+
+.contact-faq-link p {
+  margin: 0 0 12px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.faq-link-btn {
+  padding: 10px 20px;
+  background: rgba(102, 126, 234, 0.2);
+  border: 1px solid rgba(102, 126, 234, 0.4);
+  border-radius: 8px;
+  color: #667eea;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 13px;
+  transition: all 0.3s ease;
+}
+
+.faq-link-btn:hover {
+  background: rgba(102, 126, 234, 0.4);
+  border-color: #667eea;
+  transform: translateY(-1px);
+}
+
+/* ============= CONTACT INFO ============= */
+
+.contact-info {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.15), rgba(118, 75, 162, 0.15));
+  border: 1px solid rgba(102, 126, 234, 0.3);
+  border-radius: 12px;
+  padding: 28px;
+  text-align: center;
+  animation: slideUp 0.6s ease-out 0.2s both;
+}
+
+.contact-info h3 {
+  margin: 0 0 12px;
+  font-size: 18px;
+  color: white;
+  font-weight: 600;
+}
+
+.contact-info p {
+  margin: 0 0 8px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.6;
+}
+
+.contact-response-time {
+  margin-top: 12px !important;
+  font-size: 13px !important;
+}
+
+/* ============= RESPONSIVE ============= */
+
+@media (max-width: 768px) {
+  .contact-page {
+    padding: 24px 16px;
+  }
+
+  .contact-header {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .contact-back-btn {
+    align-self: flex-start;
+  }
+
+  .contact-title-section h1 {
+    font-size: 28px;
+  }
+
+  .contact-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-form-section h2,
+  .contact-channels-section h2 {
+    font-size: 20px;
+  }
+
+  .contact-info {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-page {
+    padding: 16px 12px;
+  }
+
+  .contact-title-section h1 {
+    font-size: 24px;
+  }
+
+  .contact-grid {
+    gap: 20px;
+  }
+
+  .form-input,
+  .form-select,
+  .form-textarea {
+    font-size: 13px;
+  }
+
+  .support-channel {
+    padding: 14px;
+  }
+
+  .channel-icon {
+    font-size: 28px;
+  }
+
+  .contact-info {
+    padding: 16px;
+  }
+}

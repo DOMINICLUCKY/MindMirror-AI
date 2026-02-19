@@ -1,0 +1,425 @@
+/* Analysis Page Styles */
+
+.analysis-page {
+  animation: slideInUp 0.4s ease-in;
+  will-change: opacity, transform;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.analysis-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.back-btn {
+  background: #667eea;
+  color: white;
+  border: none;
+  padding: 0.7rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.3s ease, transform 0.3s ease;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  margin-bottom: 1.5rem;
+}
+
+.back-btn:hover {
+  background: #764ba2;
+  transform: translateX(-3px) translateZ(0);
+}
+
+.analysis-container h2 {
+  color: #333;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+}
+
+/* Burnout Section */
+.burnout-section {
+  margin-bottom: 2rem;
+}
+
+.burnout-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  border-top: 4px solid;
+}
+
+.burnout-card.low {
+  border-top-color: #4caf50;
+}
+
+.burnout-card.moderate {
+  border-top-color: #ff9800;
+}
+
+.burnout-card.high {
+  border-top-color: #ff5722;
+}
+
+.burnout-card.critical {
+  border-top-color: #d32f2f;
+}
+
+.burnout-card h3 {
+  color: #667eea;
+  margin-bottom: 1rem;
+}
+
+.score-display {
+  margin: 1.5rem 0;
+}
+
+.circular-progress {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.score-text {
+  color: white;
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.risk-indicator {
+  display: inline-block;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  color: white;
+  font-weight: 600;
+  margin: 1rem 0;
+  font-size: 1.1rem;
+}
+
+.risk-message {
+  color: #666;
+  font-style: italic;
+  margin-top: 1rem;
+}
+
+/* Summary Section */
+.summary-section {
+  margin-bottom: 2rem;
+}
+
+.summary-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+  border-left: 4px solid #667eea;
+}
+
+.summary-card h3 {
+  color: #667eea;
+  margin-bottom: 1rem;
+}
+
+.summary-card p {
+  color: #555;
+  line-height: 1.8;
+}
+
+/* Emotions Section */
+.emotions-section {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+  margin-bottom: 2rem;
+}
+
+.emotions-section h3 {
+  color: #667eea;
+  margin-bottom: 1.5rem;
+}
+
+.emotions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.emotion-bar {
+  display: flex;
+  flex-direction: column;
+}
+
+.emotion-bar label {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 12px;
+  background: #eee;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 10px;
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateZ(0);
+}
+
+.emotion-anxiety { background: linear-gradient(90deg, #ff6b6b, #ee5a6f); }
+.emotion-stress { background: linear-gradient(90deg, #f9ca24, #f0932b); }
+.emotion-sadness { background: linear-gradient(90deg, #4ecdc4, #44a08d); }
+.emotion-happiness { background: linear-gradient(90deg, #f093fb, #f5576c); }
+.emotion-anger { background: linear-gradient(90deg, #fa8072, #e74c3c); }
+.emotion-fatigue { background: linear-gradient(90deg, #a8edea, #fed6e3); }
+
+.emotion-bar .score {
+  margin-top: 0.3rem;
+  font-weight: 600;
+  color: #667eea;
+  font-size: 0.85rem;
+}
+
+/* Sentiment Section */
+.sentiment-section {
+  margin-bottom: 2rem;
+}
+
+.sentiment-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+  text-align: center;
+}
+
+.sentiment-card h3 {
+  color: #667eea;
+  margin-bottom: 1rem;
+}
+
+.sentiment-display {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 2rem;
+  border-radius: 12px;
+}
+
+.sentiment-display.positive {
+  background: linear-gradient(135deg, #4caf50, #45a049);
+}
+
+.sentiment-display.negative {
+  background: linear-gradient(135deg, #ff5722, #e64a19);
+}
+
+.sentiment-score {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.sentiment-label {
+  font-size: 1.2rem;
+}
+
+/* Concerns & Strengths */
+.concerns-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.concern-box, .strength-box {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+}
+
+.concern-box h3 {
+  color: #ff5722;
+  margin-bottom: 1rem;
+}
+
+.strength-box h3 {
+  color: #4caf50;
+  margin-bottom: 1rem;
+}
+
+.concerns-list, .strengths-list {
+  list-style: none;
+}
+
+.concerns-list li, .strengths-list li {
+  padding: 0.7rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+  color: #555;
+}
+
+.concerns-list li:before {
+  content: '⚠️';
+  position: absolute;
+  left: 0;
+}
+
+.strengths-list li:before {
+  content: '💪';
+  position: absolute;
+  left: 0;
+}
+
+/* Keywords Section */
+.keywords-section {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+  margin-bottom: 2rem;
+}
+
+.keywords-section h3 {
+  color: #667eea;
+  margin-bottom: 1rem;
+}
+
+.keywords-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.keyword-tag {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 0.6rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* Recommendations Section */
+.recommendations-section {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+  margin-bottom: 2rem;
+}
+
+.recommendations-section h3 {
+  color: #667eea;
+  margin-bottom: 1.5rem;
+}
+
+.recommendation-category {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #eee;
+}
+
+.recommendation-category h4 {
+  color: #764ba2;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+.recommendation-list {
+  list-style: none;
+}
+
+.recommendation-list li {
+  padding: 0.7rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+  color: #555;
+  line-height: 1.6;
+}
+
+.recommendation-list li:before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: #667eea;
+  font-weight: bold;
+}
+
+/* Support Section */
+.support-section {
+  margin-top: 2rem;
+}
+
+.support-card {
+  background: linear-gradient(135deg, #3b33c8 0%, #12042d 100%);
+  color: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.support-card h3 {
+  margin-bottom: 1rem;
+}
+
+.support-card ul {
+  list-style: none;
+  margin-left: 0;
+}
+
+.support-card li {
+  padding: 0.5rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.support-card li:before {
+  content: '💬';
+  position: absolute;
+  left: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .emotions-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .concerns-section {
+    grid-template-columns: 1fr;
+  }
+
+  .circular-progress {
+    width: 120px;
+    height: 120px;
+  }
+
+  .score-text {
+    font-size: 1.8rem;
+  }
+}
