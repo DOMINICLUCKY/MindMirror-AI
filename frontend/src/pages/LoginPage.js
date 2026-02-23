@@ -80,6 +80,10 @@ function LoginPage({ onLoginSuccess, onShowSignup }) {
       setLoading(false);
     }
   };
+
+  // Feature info handler - shows what each feature does
+  const handleFeatureClick = (feature) => {
+    const features = {
       'ai': {
         title: 'AI-Powered Emotion Detection',
         description: 'Advanced AI analyzes your journal entries to detect emotional patterns, sentiment, and mood trends in real-time.',
