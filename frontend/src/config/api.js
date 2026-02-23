@@ -1,7 +1,8 @@
 // API Configuration for different environments
-const API_BASE_URL = process.env.NODE_ENV === 'production'
-  ? 'https://mindmirror-backend.onrender.com'
-  : 'http://localhost:5000';
+const API_BASE_URL = process.env.REACT_APP_API_URL || 
+  (process.env.NODE_ENV === 'production'
+    ? 'https://mindmirror-ai-backend.onrender.com'
+    : 'http://localhost:5000');
 
 export const API_ENDPOINTS = {
   // Journal endpoints
