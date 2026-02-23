@@ -6,12 +6,12 @@ const API_BASE_URL = process.env.REACT_APP_API_URL ||
 
 export const API_ENDPOINTS = {
   // Journal endpoints
-  ANALYZE_ENTRY: `${API_BASE_URL}/api/journal/analyze`,
-  GET_ENTRIES: `${API_BASE_URL}/api/journal/entries`,
+  ANALYZE_ENTRY: `${API_BASE_URL}/api/analysis/analyze`,
+  GET_ENTRIES: `${API_BASE_URL}/api/analysis/entries`,
   
   // Analysis endpoints
-  GET_ANALYSIS: `${API_BASE_URL}/api/analysis/get-analysis`,
-  GET_TRENDS: `${API_BASE_URL}/api/analysis/trends`,
+  GET_ANALYSIS: `${API_BASE_URL}/api/analysis/entries`,
+  GET_TRENDS: `${API_BASE_URL}/api/analysis/entries`,
   
   // Health check
   HEALTH: `${API_BASE_URL}/api/health`

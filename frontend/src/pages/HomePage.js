@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import axios from 'axios';
+import API_BASE_URL from '../config/api';
 import '../styles/HomePage.css';
 
 function HomePage({ user, onAnalyze }) {
@@ -36,7 +37,7 @@ function HomePage({ user, onAnalyze }) {
         throw new Error('Please write at least 10 characters');
       }
 
-      const response = await axios.post('http://localhost:5000/api/analysis/analyze', {
+      const response = await axios.post(`${API_BASE_URL}/api/analysis/analyze`, {
         text: journalText,
         date: new Date().toISOString()
       });
