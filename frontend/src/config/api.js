@@ -5,12 +5,18 @@ const API_BASE_URL = process.env.REACT_APP_API_URL ||
     : 'http://localhost:5000');
 
 export const API_ENDPOINTS = {
-  // Journal endpoints
-  ANALYZE_ENTRY: `${API_BASE_URL}/api/analysis/analyze`,
-  GET_ENTRIES: `${API_BASE_URL}/api/analysis/entries`,
+  // Authentication endpoints
+  REGISTER: `${API_BASE_URL}/api/auth/register`,
+  LOGIN: `${API_BASE_URL}/api/auth/login`,
   
-  // Analysis endpoints
+  // Journal endpoints
+  ANALYZE_ENTRY: `${API_BASE_URL}/api/journal/analyze`,
+  GET_USER_ENTRIES: `${API_BASE_URL}/api/journal/user`,
+  GET_USER_HISTORY: `${API_BASE_URL}/api/journal/history`,
+  
+  // Analysis/Dashboard endpoints
   GET_ANALYSIS: `${API_BASE_URL}/api/analysis/entries`,
+  GET_DASHBOARD: `${API_BASE_URL}/api/analysis/dashboard`,
   GET_TRENDS: `${API_BASE_URL}/api/analysis/entries`,
   
   // Health check

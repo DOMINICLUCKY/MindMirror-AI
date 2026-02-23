@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+import API_BASE_URL, { API_ENDPOINTS } from '../config/api';
 import '../styles/LoginPage.css';
 
 function LoginPage({ onLoginSuccess, onShowSignup }) {
@@ -17,19 +19,17 @@ function LoginPage({ onLoginSuccess, onShowSignup }) {
   // Signup state
   const [signupStep, setSignupStep] = useState(1);
   const [signupData, setSignupData] = useState({
-    fullName: '',
+    name: '',
     email: '',
-    mobile: '',
     password: '',
     confirmPassword: '',
-    age: '',
     terms: false
   });
   const [signupError, setSignupError] = useState('');
   const [showSignupPassword, setShowSignupPassword] = useState(false);
   const [showSignupConfirmPassword, setShowSignupConfirmPassword] = useState(false);
 
-  // Simulate login (replace with real API later)
+  // Real login with MongoDB
   const handleLogin = async (e) => {
     e.preventDefault();
     setError('');
@@ -38,66 +38,48 @@ function LoginPage({ onLoginSuccess, onShowSignup }) {
 
     try {
       // Validate inputs
-      if (loginMethod === 'email') {
-        if (!email || !password) {
-          throw new Error('Please fill in all fields');
-        }
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-          throw new Error('Invalid email format');
-        }
-      } else {
-        if (!mobile || !password) {
-          throw new Error('Please fill in all fields');
-        }
-        if (!/^\d{10}$/.test(mobile.replace(/\D/g, ''))) {
-          throw new Error('Mobile number must be 10 digits');
-        }
+      if (!email || !password) {
+        throw new Error('Please fill in all fields');
       }
-
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        throw new Error('Invalid email format');
+      }
       if (password.length < 6) {
         throw new Error('Password must be at least 6 characters');
       }
 
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      // Call real authentication API
+      const response = await axios.post(API_ENDPOINTS.LOGIN, {
+        email,
+        password
+      });
 
-      // Store user data in localStorage
-      const userData = {
-        id: Date.now(),
-        [loginMethod]: loginMethod === 'email' ? email : mobile,
-        loginTime: new Date().toISOString(),
-        rememberMe
-      };
+      if (response.data.success) {
+        // Store user data securely
+        const userData = {
+          id: response.data.user.id,
+          name: response.data.user.name,
+          email: response.data.user.email,
+          loginTime: new Date().toISOString(),
+          rememberMe
+        };
 
-      localStorage.setItem('mindmirror_user', JSON.stringify(userData));
-      localStorage.setItem('mindmirror_auth_token', `token_${Date.now()}`);
+        localStorage.setItem('mindmirror_user', JSON.stringify(userData));
+        localStorage.setItem('mindmirror_user_id', response.data.user.id);
 
-      setSuccess('Login successful! Redirecting...');
-      setTimeout(() => {
-        onLoginSuccess(userData);
-      }, 1000);
-
+        setSuccess('Login successful! Redirecting...');
+        setTimeout(() => {
+          onLoginSuccess(userData);
+        }, 1000);
+      }
     } catch (err) {
-      setError(err.message);
+      const errorMsg = err.response?.data?.error || err.message || 'Login failed. Please try again.';
+      setError(errorMsg);
+      console.error('Login error:', err);
     } finally {
       setLoading(false);
     }
   };
-
-  const handleDemoLogin = () => {
-    const demoUser = {
-      id: 'demo_' + Date.now(),
-      email: 'demo@mindmirror.ai',
-      loginTime: new Date().toISOString()
-    };
-    localStorage.setItem('mindmirror_user', JSON.stringify(demoUser));
-    localStorage.setItem('mindmirror_auth_token', 'demo_token');
-    onLoginSuccess(demoUser);
-  };
-
-  // Feature info handler - shows what each feature does
-  const handleFeatureClick = (feature) => {
-    const features = {
       'ai': {
         title: 'AI-Powered Emotion Detection',
         description: 'Advanced AI analyzes your journal entries to detect emotional patterns, sentiment, and mood trends in real-time.',
@@ -324,12 +306,10 @@ function LoginPage({ onLoginSuccess, onShowSignup }) {
               setSignupStep(1);
               setSignupError('');
               setSignupData({
-                fullName: '',
+                name: '',
                 email: '',
-                mobile: '',
                 password: '',
                 confirmPassword: '',
-                age: '',
                 terms: false
               });
             }}
@@ -358,7 +338,7 @@ function LoginPage({ onLoginSuccess, onShowSignup }) {
           {signupStep === 1 && (
             <form className="signup-form" onSubmit={(e) => {
               e.preventDefault();
-              if (signupData.fullName.trim()) {
+              if (signupData.name.trim()) {
                 setSignupStep(2);
                 setSignupError('');
               } else {
@@ -370,9 +350,9 @@ function LoginPage({ onLoginSuccess, onShowSignup }) {
                 <input
                   id="fullName"
                   type="text"
-                  value={signupData.fullName}
+                  value={signupData.name}
                   onChange={(e) => {
-                    setSignupData({...signupData, fullName: e.target.value});
+                    setSignupData({...signupData, name: e.target.value});
                     setSignupError('');
                   }}
                   placeholder="Enter your full name"
@@ -384,19 +364,19 @@ function LoginPage({ onLoginSuccess, onShowSignup }) {
             </form>
           )}
 
-          {/* Step 2: Email/Mobile */}
+          {/* Step 2: Email */}
           {signupStep === 2 && (
             <form className="signup-form" onSubmit={(e) => {
               e.preventDefault();
-              if (signupData.email || signupData.mobile) {
+              if (signupData.email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(signupData.email)) {
                 setSignupStep(3);
                 setSignupError('');
               } else {
-                setSignupError('Please enter email or mobile number');
+                setSignupError('Please enter a valid email address');
               }
             }}>
               <div className="form-group">
-                <label htmlFor="signup-email">Email Address (Optional)</label>
+                <label htmlFor="signup-email">Email Address</label>
                 <input
                   id="signup-email"
                   type="email"
@@ -406,20 +386,6 @@ function LoginPage({ onLoginSuccess, onShowSignup }) {
                     setSignupError('');
                   }}
                   placeholder="your@email.com"
-                  className="form-input glass-input"
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="signup-mobile">Mobile Number (Optional)</label>
-                <input
-                  id="signup-mobile"
-                  type="tel"
-                  value={signupData.mobile}
-                  onChange={(e) => {
-                    setSignupData({...signupData, mobile: e.target.value.replace(/\D/g, '').slice(0, 10)});
-                    setSignupError('');
-                  }}
-                  placeholder="10-digit number"
                   className="form-input glass-input"
                 />
               </div>
@@ -439,21 +405,62 @@ function LoginPage({ onLoginSuccess, onShowSignup }) {
 
           {/* Step 3: Password & Age */}
           {signupStep === 3 && (
-            <form className="signup-form" onSubmit={(e) => {
+            <form className="signup-form" onSubmit={async (e) => {
               e.preventDefault();
-              if (signupData.password && signupData.password === signupData.confirmPassword && signupData.age && signupData.terms) {
-                const userData = {
-                  id: Date.now(),
-                  fullName: signupData.fullName,
-                  email: signupData.email || undefined,
-                  mobile: signupData.mobile || undefined,
-                  signupTime: new Date().toISOString()
-                };
-                localStorage.setItem('mindmirror_user', JSON.stringify(userData));
-                localStorage.setItem('mindmirror_auth_token', `token_${Date.now()}`);
-                onLoginSuccess(userData);
-              } else {
-                setSignupError('Please fill all fields correctly');
+              
+              if (!signupData.password || signupData.password !== signupData.confirmPassword) {
+                setSignupError('Passwords do not match');
+                return;
+              }
+              
+              if (signupData.password.length < 6) {
+                setSignupError('Password must be at least 6 characters');
+                return;
+              }
+              
+              if (!signupData.email && !signupData.mobile) {
+                setSignupError('Please provide email or mobile number');
+                return;
+              }
+              
+              if (!signupData.terms) {
+                setSignupError('Please accept terms and conditions');
+                return;
+              }
+
+              setLoading(true);
+              try {
+                // Call real registration API
+                const response = await axios.post(API_ENDPOINTS.REGISTER, {
+                  name: signupData.name || signupData.fullName,
+                  email: signupData.email,
+                  password: signupData.password,
+                  confirmPassword: signupData.confirmPassword
+                });
+
+                if (response.data.success) {
+                  // Store user data
+                  const userData = {
+                    id: response.data.user.id,
+                    name: response.data.user.name,
+                    email: response.data.user.email,
+                    signupTime: new Date().toISOString()
+                  };
+                  
+                  localStorage.setItem('mindmirror_user', JSON.stringify(userData));
+                  localStorage.setItem('mindmirror_user_id', response.data.user.id);
+                  
+                  setSuccess('Account created successfully! Redirecting...');
+                  setTimeout(() => {
+                    onLoginSuccess(userData);
+                  }, 1000);
+                }
+              } catch (err) {
+                const errorMsg = err.response?.data?.error || err.message || 'Signup failed. Please try again.';
+                setSignupError(errorMsg);
+                console.error('Signup error:', err);
+              } finally {
+                setLoading(false);
               }
             }}>
               <div className="form-group">

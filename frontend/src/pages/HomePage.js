@@ -37,7 +37,14 @@ function HomePage({ user, onAnalyze }) {
         throw new Error('Please write at least 10 characters');
       }
 
-      const response = await axios.post(`${API_BASE_URL}/api/analysis/analyze`, {
+      // Get userId from localStorage
+      const userId = localStorage.getItem('mindmirror_user_id');
+      if (!userId) {
+        throw new Error('User not logged in. Please login first.');
+      }
+
+      const response = await axios.post(`${API_BASE_URL}/api/journal/analyze`, {
+        userId,
         text: journalText,
         date: new Date().toISOString()
       });

@@ -27,7 +27,15 @@ function DashboardPage({ onHome }) {
 
   const fetchDashboardData = async () => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/api/analysis/dashboard`);
+      // Get userId from localStorage
+      const userId = localStorage.getItem('mindmirror_user_id');
+      if (!userId) {
+        setError('User not logged in');
+        setLoading(false);
+        return;
+      }
+
+      const response = await axios.get(`${API_BASE_URL}/api/analysis/dashboard/${userId}`);
       if (response.data.success) {
         setDashboardData(response.data.dashboardData);
       }
