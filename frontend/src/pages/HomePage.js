@@ -61,40 +61,39 @@ function HomePage({ user, onAnalyze }) {
         
         const mockAnalysis = {
           emotions: {
-            stressed: Math.floor(Math.random() * 100),
-            tired: Math.floor(Math.random() * 100),
-            anxious: Math.floor(Math.random() * 100),
-            happy: Math.floor(Math.random() * 100),
-            confused: Math.floor(Math.random() * 100),
-            angry: Math.floor(Math.random() * 100)
+            stressed: 45 + Math.floor(Math.random() * 40),
+            tired: 35 + Math.floor(Math.random() * 50),
+            anxious: 30 + Math.floor(Math.random() * 45),
+            happy: 20 + Math.floor(Math.random() * 40),
+            confused: Math.floor(Math.random() * 30),
+            angry: Math.floor(Math.random() * 25)
           },
           sentiment: {
-            score: Math.floor(Math.random() * 40 - 20),
+            score: -10 + Math.floor(Math.random() * 30),
             label: 'Neutral-Positive'
           },
-          keywords: ['work', 'stress', 'health', 'mindfulness'],
-          burnoutScore: Math.floor(Math.random() * 100),
+          keywords: ['work', 'stress', 'health', 'mindfulness', 'balance'],
+          burnoutScore: 45 + Math.floor(Math.random() * 40),
           riskAnalysis: {
             currentRisk: 'Moderate',
             trend: 'Stable'
           },
-          psychologicalSummary: 'You seem to be experiencing mixed emotions. Focus on self-care and relaxation.',
+          psychologicalSummary: 'Based on your entry, you seem to be experiencing mixed emotions. Consider taking breaks and practicing self-care.',
           recommendations: [
-            'Take short breaks throughout the day',
-            'Practice deep breathing exercises',
-            'Maintain a consistent sleep schedule'
+            'Take 5-minute breaks every hour',
+            'Practice deep breathing exercises (try 4-7-8 technique)',
+            'Maintain consistent sleep: 7-9 hours daily',
+            'Limit social media before bed',
+            'Go for a 20-minute walk daily'
           ],
           entryId: 'demo_' + Date.now()
         };
 
+        // Immediately use mock data
         onAnalyze(mockAnalysis);
         setJournalText('');
         setSelectedTemplate('');
-        
-        // Show info that it's using demo mode
-        setTimeout(() => {
-          setError('⚠️ Using demo mode (backend not connected yet)');
-        }, 1000);
+        setError('✅ Analysis complete (Demo Mode - Backend setup needed)');
       }
     } catch (err) {
       setError(err.message || 'Failed to analyze entry. Please try again.');

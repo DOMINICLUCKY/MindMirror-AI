@@ -1,8 +1,14 @@
+import axios from 'axios';
+
 // API Configuration for different environments
 const API_BASE_URL = process.env.REACT_APP_API_URL || 
   (process.env.NODE_ENV === 'production'
     ? 'https://mindmirror-ai-backend.onrender.com'
     : 'http://localhost:5000');
+
+// Configure axios with timeout
+axios.defaults.timeout = 5000; // 5 second timeout
+axios.defaults.baseURL = API_BASE_URL;
 
 export const API_ENDPOINTS = {
   // Authentication endpoints

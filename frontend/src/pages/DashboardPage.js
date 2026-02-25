@@ -69,7 +69,7 @@ function DashboardPage({ onHome }) {
             {
               date: new Date().toLocaleDateString(),
               sentiment: 'Neutral-Positive',
-              burnouScore: 62,
+              burnoutScore: 62,
               recommendation: 'Take breaks regularly'
             },
             {
@@ -81,6 +81,7 @@ function DashboardPage({ onHome }) {
           ]
         };
         
+        // Immediately use mock data without setTimeout
         setDashboardData(mockDashboard);
       }
     } catch (err) {

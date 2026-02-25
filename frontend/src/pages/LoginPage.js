@@ -71,7 +71,7 @@ function LoginPage({ onLoginSuccess, onShowSignup }) {
           setSuccess('Login successful! Redirecting...');
           setTimeout(() => {
             onLoginSuccess(userData);
-          }, 1000);
+          }, 800);
         }
       } catch (apiError) {
         // If backend is unavailable, allow demo/test login
@@ -90,10 +90,9 @@ function LoginPage({ onLoginSuccess, onShowSignup }) {
         localStorage.setItem('mindmirror_user', JSON.stringify(demoUserData));
         localStorage.setItem('mindmirror_user_id', demoUserId);
         
-        setSuccess('⚠️ Demo mode activated - Backend not connected yet. Test all features!');
-        setTimeout(() => {
-          onLoginSuccess(demoUserData);
-        }, 1500);
+        setSuccess('✅ Demo mode - Backend not connected yet. Test all features!');
+        // Immediately proceed instead of timeout
+        onLoginSuccess(demoUserData);
       }
     } catch (err) {
       const errorMsg = err.response?.data?.error || err.message || 'Login failed. Please try again.';
@@ -498,10 +497,9 @@ function LoginPage({ onLoginSuccess, onShowSignup }) {
                   localStorage.setItem('mindmirror_user', JSON.stringify(userData));
                   localStorage.setItem('mindmirror_user_id', demoUserId);
                   
-                  setSuccess('⚠️ Demo account created! Backend not connected yet. Test all features!');
-                  setTimeout(() => {
-                    onLoginSuccess(userData);
-                  }, 1500);
+                  setSuccess('✅ Demo account created - Test all features!');
+                  // Immediately proceed
+                  onLoginSuccess(userData);
                 }
               } catch (err) {
                 const errorMsg = err.response?.data?.error || err.message || 'Signup failed. Please try again.';
