@@ -43,17 +43,27 @@ function HomePage({ user, onAnalyze }) {
         throw new Error('User not logged in. Please login first.');
       }
 
+      // Use Promise.race to add fallback timeout
+      let response;
       try {
-        const response = await axios.post(`${API_BASE_URL}/api/journal/analyze`, {
+        const timeoutPromise = new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('API timeout - using demo mode')), 4000)
+        );
+        
+        const apiPromise = axios.post(`${API_BASE_URL}/api/journal/analyze`, {
           userId,
           text: journalText,
           date: new Date().toISOString()
         });
 
+        response = await Promise.race([apiPromise, timeoutPromise]);
+
         if (response.data.success) {
           onAnalyze(response.data.analysis);
           setJournalText('');
           setSelectedTemplate('');
+          setError(''); // Clear any error message
+          return;
         }
       } catch (apiError) {
         // If backend is unavailable, use mock analysis for testing

@@ -39,6 +39,7 @@ function DashboardPage({ onHome }) {
         const response = await axios.get(`${API_BASE_URL}/api/analysis/dashboard/${userId}`);
         if (response.data.success) {
           setDashboardData(response.data.dashboardData);
+          return;
         }
       } catch (apiError) {
         // If backend is unavailable, use mock dashboard data

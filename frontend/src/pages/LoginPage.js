@@ -49,11 +49,17 @@ function LoginPage({ onLoginSuccess, onShowSignup }) {
       }
 
       try {
-        // Call real authentication API
-        const response = await axios.post(API_ENDPOINTS.LOGIN, {
+        // Use Promise.race to add timeout fallback
+        const timeoutPromise = new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('API timeout - using demo mode')), 4000)
+        );
+        
+        const apiPromise = axios.post(API_ENDPOINTS.LOGIN, {
           email,
           password
         });
+
+        const response = await Promise.race([apiPromise, timeoutPromise]);
 
         if (response.data.success) {
           // Store user data securely
@@ -72,6 +78,7 @@ function LoginPage({ onLoginSuccess, onShowSignup }) {
           setTimeout(() => {
             onLoginSuccess(userData);
           }, 800);
+          return;
         }
       } catch (apiError) {
         // If backend is unavailable, allow demo/test login
