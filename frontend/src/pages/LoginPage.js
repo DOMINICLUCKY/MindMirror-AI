@@ -49,42 +49,7 @@ function LoginPage({ onLoginSuccess, onShowSignup }) {
       }
 
       try {
-        // Use Promise.race to add timeout fallback
-        const timeoutPromise = new Promise((_, reject) => 
-          setTimeout(() => reject(new Error('API timeout - using demo mode')), 4000)
-        );
-        
-        const apiPromise = axios.post(API_ENDPOINTS.LOGIN, {
-          email,
-          password
-        });
-
-        const response = await Promise.race([apiPromise, timeoutPromise]);
-
-        if (response.data.success) {
-          // Store user data securely
-          const userData = {
-            id: response.data.user.id,
-            name: response.data.user.name,
-            email: response.data.user.email,
-            loginTime: new Date().toISOString(),
-            rememberMe
-          };
-
-          localStorage.setItem('mindmirror_user', JSON.stringify(userData));
-          localStorage.setItem('mindmirror_user_id', response.data.user.id);
-
-          setSuccess('Login successful! Redirecting...');
-          setTimeout(() => {
-            onLoginSuccess(userData);
-          }, 800);
-          return;
-        }
-      } catch (apiError) {
-        // If backend is unavailable, allow demo/test login
-        console.warn('Backend unavailable, using demo mode:', apiError.message);
-        
-        // Accept valid email/password combo in demo mode
+        // Use demo/test mode directly (backend not needed for MVP testing)
         const demoUserId = 'demo_' + Math.random().toString(36).substr(2, 9);
         const demoUserData = {
           id: demoUserId,
@@ -97,10 +62,10 @@ function LoginPage({ onLoginSuccess, onShowSignup }) {
         localStorage.setItem('mindmirror_user', JSON.stringify(demoUserData));
         localStorage.setItem('mindmirror_user_id', demoUserId);
         
-        setSuccess('✅ Demo mode - Backend not connected yet. Test all features!');
-        // Immediately proceed instead of timeout
+        setSuccess('✅ Login successful! (Demo Mode)');
+        // Immediately proceed
         onLoginSuccess(demoUserData);
-      }
+      } catch (err) {
     } catch (err) {
       const errorMsg = err.response?.data?.error || err.message || 'Login failed. Please try again.';
       setError(errorMsg);
@@ -463,51 +428,21 @@ function LoginPage({ onLoginSuccess, onShowSignup }) {
 
               setLoading(true);
               try {
-                // Call real registration API
-                try {
-                  const response = await axios.post(API_ENDPOINTS.REGISTER, {
-                    name: signupData.name || signupData.fullName,
-                    email: signupData.email,
-                    password: signupData.password,
-                    confirmPassword: signupData.confirmPassword
-                  });
-
-                  if (response.data.success) {
-                    // Store user data
-                    const userData = {
-                      id: response.data.user.id,
-                      name: response.data.user.name,
-                      email: response.data.user.email,
-                      signupTime: new Date().toISOString()
-                    };
-                    
-                    localStorage.setItem('mindmirror_user', JSON.stringify(userData));
-                    localStorage.setItem('mindmirror_user_id', response.data.user.id);
-                    
-                    setSuccess('Account created successfully! Redirecting...');
-                    setTimeout(() => {
-                      onLoginSuccess(userData);
-                    }, 1000);
-                  }
-                } catch (apiError) {
-                  // If backend is unavailable, allow demo signup
-                  console.warn('Backend unavailable, using demo mode:', apiError.message);
-                  
-                  const demoUserId = 'demo_' + Math.random().toString(36).substr(2, 9);
-                  const userData = {
-                    id: demoUserId,
-                    name: signupData.name || signupData.fullName,
-                    email: signupData.email,
-                    signupTime: new Date().toISOString()
-                  };
-                  
-                  localStorage.setItem('mindmirror_user', JSON.stringify(userData));
-                  localStorage.setItem('mindmirror_user_id', demoUserId);
-                  
-                  setSuccess('✅ Demo account created - Test all features!');
-                  // Immediately proceed
-                  onLoginSuccess(userData);
-                }
+                // Use demo mode directly
+                const demoUserId = 'demo_' + Math.random().toString(36).substr(2, 9);
+                const userData = {
+                  id: demoUserId,
+                  name: signupData.name || signupData.fullName,
+                  email: signupData.email,
+                  signupTime: new Date().toISOString()
+                };
+                
+                localStorage.setItem('mindmirror_user', JSON.stringify(userData));
+                localStorage.setItem('mindmirror_user_id', demoUserId);
+                
+                setSuccess('✅ Account created! (Demo Mode)');
+                // Immediately proceed
+                onLoginSuccess(userData);
               } catch (err) {
                 const errorMsg = err.response?.data?.error || err.message || 'Signup failed. Please try again.';
                 setSignupError(errorMsg);
