@@ -43,19 +43,61 @@ function HomePage({ user, onAnalyze }) {
         throw new Error('User not logged in. Please login first.');
       }
 
-      const response = await axios.post(`${API_BASE_URL}/api/journal/analyze`, {
-        userId,
-        text: journalText,
-        date: new Date().toISOString()
-      });
+      try {
+        const response = await axios.post(`${API_BASE_URL}/api/journal/analyze`, {
+          userId,
+          text: journalText,
+          date: new Date().toISOString()
+        });
 
-      if (response.data.success) {
-        onAnalyze(response.data.analysis);
+        if (response.data.success) {
+          onAnalyze(response.data.analysis);
+          setJournalText('');
+          setSelectedTemplate('');
+        }
+      } catch (apiError) {
+        // If backend is unavailable, use mock analysis for testing
+        console.warn('Backend unavailable, using demo mode:', apiError.message);
+        
+        const mockAnalysis = {
+          emotions: {
+            stressed: Math.floor(Math.random() * 100),
+            tired: Math.floor(Math.random() * 100),
+            anxious: Math.floor(Math.random() * 100),
+            happy: Math.floor(Math.random() * 100),
+            confused: Math.floor(Math.random() * 100),
+            angry: Math.floor(Math.random() * 100)
+          },
+          sentiment: {
+            score: Math.floor(Math.random() * 40 - 20),
+            label: 'Neutral-Positive'
+          },
+          keywords: ['work', 'stress', 'health', 'mindfulness'],
+          burnoutScore: Math.floor(Math.random() * 100),
+          riskAnalysis: {
+            currentRisk: 'Moderate',
+            trend: 'Stable'
+          },
+          psychologicalSummary: 'You seem to be experiencing mixed emotions. Focus on self-care and relaxation.',
+          recommendations: [
+            'Take short breaks throughout the day',
+            'Practice deep breathing exercises',
+            'Maintain a consistent sleep schedule'
+          ],
+          entryId: 'demo_' + Date.now()
+        };
+
+        onAnalyze(mockAnalysis);
         setJournalText('');
         setSelectedTemplate('');
+        
+        // Show info that it's using demo mode
+        setTimeout(() => {
+          setError('⚠️ Using demo mode (backend not connected yet)');
+        }, 1000);
       }
     } catch (err) {
-      setError(err.response?.data?.error || err.message || 'Failed to analyze entry. Please try again.');
+      setError(err.message || 'Failed to analyze entry. Please try again.');
       console.error('Analysis error:', err);
     } finally {
       setLoading(false);

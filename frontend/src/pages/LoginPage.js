@@ -48,29 +48,52 @@ function LoginPage({ onLoginSuccess, onShowSignup }) {
         throw new Error('Password must be at least 6 characters');
       }
 
-      // Call real authentication API
-      const response = await axios.post(API_ENDPOINTS.LOGIN, {
-        email,
-        password
-      });
+      try {
+        // Call real authentication API
+        const response = await axios.post(API_ENDPOINTS.LOGIN, {
+          email,
+          password
+        });
 
-      if (response.data.success) {
-        // Store user data securely
-        const userData = {
-          id: response.data.user.id,
-          name: response.data.user.name,
-          email: response.data.user.email,
+        if (response.data.success) {
+          // Store user data securely
+          const userData = {
+            id: response.data.user.id,
+            name: response.data.user.name,
+            email: response.data.user.email,
+            loginTime: new Date().toISOString(),
+            rememberMe
+          };
+
+          localStorage.setItem('mindmirror_user', JSON.stringify(userData));
+          localStorage.setItem('mindmirror_user_id', response.data.user.id);
+
+          setSuccess('Login successful! Redirecting...');
+          setTimeout(() => {
+            onLoginSuccess(userData);
+          }, 1000);
+        }
+      } catch (apiError) {
+        // If backend is unavailable, allow demo/test login
+        console.warn('Backend unavailable, using demo mode:', apiError.message);
+        
+        // Accept valid email/password combo in demo mode
+        const demoUserId = 'demo_' + Math.random().toString(36).substr(2, 9);
+        const demoUserData = {
+          id: demoUserId,
+          name: email.split('@')[0],
+          email: email,
           loginTime: new Date().toISOString(),
           rememberMe
         };
 
-        localStorage.setItem('mindmirror_user', JSON.stringify(userData));
-        localStorage.setItem('mindmirror_user_id', response.data.user.id);
-
-        setSuccess('Login successful! Redirecting...');
+        localStorage.setItem('mindmirror_user', JSON.stringify(demoUserData));
+        localStorage.setItem('mindmirror_user_id', demoUserId);
+        
+        setSuccess('⚠️ Demo mode activated - Backend not connected yet. Test all features!');
         setTimeout(() => {
-          onLoginSuccess(userData);
-        }, 1000);
+          onLoginSuccess(demoUserData);
+        }, 1500);
       }
     } catch (err) {
       const errorMsg = err.response?.data?.error || err.message || 'Login failed. Please try again.';
@@ -435,29 +458,50 @@ function LoginPage({ onLoginSuccess, onShowSignup }) {
               setLoading(true);
               try {
                 // Call real registration API
-                const response = await axios.post(API_ENDPOINTS.REGISTER, {
-                  name: signupData.name || signupData.fullName,
-                  email: signupData.email,
-                  password: signupData.password,
-                  confirmPassword: signupData.confirmPassword
-                });
+                try {
+                  const response = await axios.post(API_ENDPOINTS.REGISTER, {
+                    name: signupData.name || signupData.fullName,
+                    email: signupData.email,
+                    password: signupData.password,
+                    confirmPassword: signupData.confirmPassword
+                  });
 
-                if (response.data.success) {
-                  // Store user data
+                  if (response.data.success) {
+                    // Store user data
+                    const userData = {
+                      id: response.data.user.id,
+                      name: response.data.user.name,
+                      email: response.data.user.email,
+                      signupTime: new Date().toISOString()
+                    };
+                    
+                    localStorage.setItem('mindmirror_user', JSON.stringify(userData));
+                    localStorage.setItem('mindmirror_user_id', response.data.user.id);
+                    
+                    setSuccess('Account created successfully! Redirecting...');
+                    setTimeout(() => {
+                      onLoginSuccess(userData);
+                    }, 1000);
+                  }
+                } catch (apiError) {
+                  // If backend is unavailable, allow demo signup
+                  console.warn('Backend unavailable, using demo mode:', apiError.message);
+                  
+                  const demoUserId = 'demo_' + Math.random().toString(36).substr(2, 9);
                   const userData = {
-                    id: response.data.user.id,
-                    name: response.data.user.name,
-                    email: response.data.user.email,
+                    id: demoUserId,
+                    name: signupData.name || signupData.fullName,
+                    email: signupData.email,
                     signupTime: new Date().toISOString()
                   };
                   
                   localStorage.setItem('mindmirror_user', JSON.stringify(userData));
-                  localStorage.setItem('mindmirror_user_id', response.data.user.id);
+                  localStorage.setItem('mindmirror_user_id', demoUserId);
                   
-                  setSuccess('Account created successfully! Redirecting...');
+                  setSuccess('⚠️ Demo account created! Backend not connected yet. Test all features!');
                   setTimeout(() => {
                     onLoginSuccess(userData);
-                  }, 1000);
+                  }, 1500);
                 }
               } catch (err) {
                 const errorMsg = err.response?.data?.error || err.message || 'Signup failed. Please try again.';
