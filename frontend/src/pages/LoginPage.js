@@ -33,9 +33,6 @@ function LoginPage({ onLoginSuccess, onShowSignup }) {
   const handleLogin = async (e) => {
     e.preventDefault();
     setError('');
-    setSuccess('');
-    setLoading(true);
-
     try {
       // Validate inputs
       if (!email || !password) {
@@ -48,24 +45,22 @@ function LoginPage({ onLoginSuccess, onShowSignup }) {
         throw new Error('Password must be at least 6 characters');
       }
 
-      try {
-        // Use demo/test mode directly (backend not needed for MVP testing)
-        const demoUserId = 'demo_' + Math.random().toString(36).substr(2, 9);
-        const demoUserData = {
-          id: demoUserId,
-          name: email.split('@')[0],
-          email: email,
-          loginTime: new Date().toISOString(),
-          rememberMe
-        };
+      // Use demo/test mode directly (backend not needed for MVP testing)
+      const demoUserId = 'demo_' + Math.random().toString(36).substr(2, 9);
+      const demoUserData = {
+        id: demoUserId,
+        name: email.split('@')[0],
+        email: email,
+        loginTime: new Date().toISOString(),
+        rememberMe
+      };
 
-        localStorage.setItem('mindmirror_user', JSON.stringify(demoUserData));
-        localStorage.setItem('mindmirror_user_id', demoUserId);
-        
-        setSuccess('✅ Login successful! (Demo Mode)');
-        // Immediately proceed
-        onLoginSuccess(demoUserData);
-      } catch (err) {
+      localStorage.setItem('mindmirror_user', JSON.stringify(demoUserData));
+      localStorage.setItem('mindmirror_user_id', demoUserId);
+      
+      setSuccess('✅ Login successful! (Demo Mode)');
+      // Immediately proceed
+      onLoginSuccess(demoUserData);
     } catch (err) {
       const errorMsg = err.response?.data?.error || err.message || 'Login failed. Please try again.';
       setError(errorMsg);
@@ -145,7 +140,6 @@ function LoginPage({ onLoginSuccess, onShowSignup }) {
               Mobile
             </button>
           </div>
-
           {/* Form */}
           <form onSubmit={handleLogin} className="login-form">
             {/* Email/Mobile Input */}
@@ -537,50 +531,54 @@ function LoginPage({ onLoginSuccess, onShowSignup }) {
         )}
 
         {/* Features Highlight - Now Clickable & Functional */}
-        <div className="features-highlight">
-          <div className="feature-item" onClick={() => handleFeatureClick('ai')}>
-            <span className="feature-icon">🎯</span>
-            <h3>AI-Powered</h3>
-            <p>Smart emotion detection</p>
-          </div>
-          <div className="feature-item" onClick={() => handleFeatureClick('analytics')}>
-            <span className="feature-icon">📊</span>
-            <h3>Real Analytics</h3>
-            <p>Track your mental health</p>
-          </div>
-          <div className="feature-item" onClick={() => handleFeatureClick('insights')}>
-            <span className="feature-icon">💡</span>
-            <h3>Smart Insights</h3>
-            <p>Personalized recommendations</p>
-          </div>
-        </div>
-
-        {/* Feature Info Modal */}
-        {featureInfo && (
-          <div className="feature-modal-overlay" onClick={() => setFeatureInfo(null)}>
-            <div className="feature-modal" onClick={(e) => e.stopPropagation()}>
-              <button className="modal-close" onClick={() => setFeatureInfo(null)}>✕</button>
-              <h2>{featureInfo.title}</h2>
-              <p className="modal-description">{featureInfo.description}</p>
-              <div className="modal-examples">
-                <h4>What You Get:</h4>
-                <ul>
-                  {featureInfo.examples.map((example, idx) => (
-                    <li key={idx}>✓ {example}</li>
-                  ))}
-                </ul>
+        {!isSignupMode && (
+          <>
+            <div className="features-highlight">
+              <div className="feature-item" onClick={() => handleFeatureClick('ai')}>
+                <span className="feature-icon">🎯</span>
+                <h3>AI-Powered</h3>
+                <p>Smart emotion detection</p>
               </div>
-              <button 
-                className="modal-cta-btn"
-                onClick={() => {
-                  setFeatureInfo(null);
-                  setIsSignupMode(true);
-                }}
-              >
-                Try It Now - Create Account
-              </button>
+              <div className="feature-item" onClick={() => handleFeatureClick('analytics')}>
+                <span className="feature-icon">📊</span>
+                <h3>Real Analytics</h3>
+                <p>Track your mental health</p>
+              </div>
+              <div className="feature-item" onClick={() => handleFeatureClick('insights')}>
+                <span className="feature-icon">💡</span>
+                <h3>Smart Insights</h3>
+                <p>Personalized recommendations</p>
+              </div>
             </div>
-          </div>
+
+            {/* Feature Info Modal */}
+            {featureInfo && (
+              <div className="feature-modal-overlay" onClick={() => setFeatureInfo(null)}>
+                <div className="feature-modal" onClick={(e) => e.stopPropagation()}>
+                  <button className="modal-close" onClick={() => setFeatureInfo(null)}>✕</button>
+                  <h2>{featureInfo.title}</h2>
+                  <p className="modal-description">{featureInfo.description}</p>
+                  <div className="modal-examples">
+                    <h4>What You Get:</h4>
+                    <ul>
+                      {featureInfo.examples.map((example, idx) => (
+                        <li key={idx}>✓ {example}</li>
+                      ))}
+                    </ul>
+                  </div>
+                  <button 
+                    className="modal-cta-btn"
+                    onClick={() => {
+                      setFeatureInfo(null);
+                      setIsSignupMode(true);
+                    }}
+                  >
+                    Try It Now - Create Account
+                  </button>
+                </div>
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>
