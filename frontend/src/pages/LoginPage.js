@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-import API_BASE_URL, { API_ENDPOINTS } from '../config/api';
 import ForgotPasswordPage from './ForgotPasswordPage';
 import '../styles/LoginPage.css';
 
