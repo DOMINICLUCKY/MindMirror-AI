@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import API_BASE_URL, { API_ENDPOINTS } from '../config/api';
+import ForgotPasswordPage from './ForgotPasswordPage';
 import '../styles/LoginPage.css';
 
 function LoginPage({ onLoginSuccess, onShowSignup }) {
@@ -15,6 +16,8 @@ function LoginPage({ onLoginSuccess, onShowSignup }) {
   const [showPassword, setShowPassword] = useState(false);
   const [isSignupMode, setIsSignupMode] = useState(false);
   const [featureInfo, setFeatureInfo] = useState(null);
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const [showSocialLogin, setShowSocialLogin] = useState(false);
   
   // Signup state
   const [signupStep, setSignupStep] = useState(1);
@@ -70,6 +73,38 @@ function LoginPage({ onLoginSuccess, onShowSignup }) {
     }
   };
 
+  // Social login handlers
+  const handleSocialLogin = (provider) => {
+    // Demo mode - create social login demo account
+    const socialProviders = {
+      google: { name: 'Google', icon: '🔍' },
+      github: { name: 'GitHub', icon: '💻' },
+      apple: { name: 'Apple', icon: '🍎' }
+    };
+
+    const provider_info = socialProviders[provider];
+    
+    setSuccess(`✅ ${provider_info.name} login in progress... (Demo Mode)`);
+    
+    // Simulate OAuth flow
+    setTimeout(() => {
+      const demoUserId = 'social_' + provider + '_' + Math.random().toString(36).substr(2, 9);
+      const demoUserData = {
+        id: demoUserId,
+        name: `User (${provider_info.name})`,
+        email: `user.${provider}@example.com`,
+        provider: provider,
+        loginTime: new Date().toISOString(),
+        rememberMe: true
+      };
+
+      localStorage.setItem('mindmirror_user', JSON.stringify(demoUserData));
+      localStorage.setItem('mindmirror_user_id', demoUserId);
+      
+      onLoginSuccess(demoUserData);
+    }, 2000);
+  };
+
   // Feature info handler - shows what each feature does
   const handleFeatureClick = (feature) => {
     const features = {
@@ -93,7 +128,11 @@ function LoginPage({ onLoginSuccess, onShowSignup }) {
   };
 
   return (
-    <div className="login-container">
+    <>
+      {showForgotPassword ? (
+        <ForgotPasswordPage onBack={() => setShowForgotPassword(false)} />
+      ) : (
+        <div className="login-container">
       {/* Animated background */}
       <div className="login-bg">
         <div className="gradient-1"></div>
@@ -203,7 +242,13 @@ function LoginPage({ onLoginSuccess, onShowSignup }) {
                 />
                 <span>Remember me</span>
               </label>
-              <a href="#forgot" className="forgot-link">Forgot password?</a>
+              <button 
+                type="button"
+                className="forgot-link"
+                onClick={() => setShowForgotPassword(true)}
+              >
+                Forgot password?
+              </button>
             </div>
 
             {/* Error Message */}
@@ -246,13 +291,28 @@ function LoginPage({ onLoginSuccess, onShowSignup }) {
 
           {/* Social Login */}
           <div className="social-login">
-            <button className="social-btn google-btn" title="Google Login">
+            <button 
+              type="button"
+              className="social-btn google-btn" 
+              title="Login with Google"
+              onClick={() => handleSocialLogin('google')}
+            >
               <span>🔍</span>
             </button>
-            <button className="social-btn github-btn" title="GitHub Login">
+            <button 
+              type="button"
+              className="social-btn github-btn" 
+              title="Login with GitHub"
+              onClick={() => handleSocialLogin('github')}
+            >
               <span>💻</span>
             </button>
-            <button className="social-btn apple-btn" title="Apple Login">
+            <button 
+              type="button"
+              className="social-btn apple-btn" 
+              title="Login with Apple"
+              onClick={() => handleSocialLogin('apple')}
+            >
               <span>🍎</span>
             </button>
           </div>
@@ -261,7 +321,7 @@ function LoginPage({ onLoginSuccess, onShowSignup }) {
           <button
             type="button"
             className="demo-btn"
-            onClick={handleDemoLogin}
+            onClick={() => handleSocialLogin('google')}
           >
             Try Demo Account
           </button>
@@ -582,6 +642,8 @@ function LoginPage({ onLoginSuccess, onShowSignup }) {
         )}
       </div>
     </div>
+      )}
+    </>
   );
 }
 
