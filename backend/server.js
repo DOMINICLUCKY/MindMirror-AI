@@ -16,8 +16,10 @@ app.use(express.json());
 const authRoutes = require('./routes/auth');
 const analysisRoutes = require('./routes/analysis');
 const journalRoutes = require('./routes/journal');
+const oauthRoutes = require('./routes/oauth');
 
 app.use('/api/auth', authRoutes);
+app.use('/api/auth/oauth', oauthRoutes);
 app.use('/api/analysis', analysisRoutes);
 app.use('/api/journal', journalRoutes);
 
