@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import ForgotPasswordPage from './ForgotPasswordPage';
+import OAUTH_CONFIG, { getDemoUserData } from '../config/oauth';
 import '../styles/LoginPage.css';
 
 function LoginPage({ onLoginSuccess, onShowSignup }) {
@@ -15,7 +16,6 @@ function LoginPage({ onLoginSuccess, onShowSignup }) {
   const [isSignupMode, setIsSignupMode] = useState(false);
   const [featureInfo, setFeatureInfo] = useState(null);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
-  const [showSocialLogin, setShowSocialLogin] = useState(false);
   
   // Signup state
   const [signupStep, setSignupStep] = useState(1);
@@ -73,32 +73,40 @@ function LoginPage({ onLoginSuccess, onShowSignup }) {
 
   // Social login handlers
   const handleSocialLogin = (provider) => {
-    // Demo mode - create social login demo account
-    const socialProviders = {
-      google: { name: 'Google', icon: '🔍' },
-      github: { name: 'GitHub', icon: '💻' },
-      apple: { name: 'Apple', icon: '🍎' }
-    };
-
-    const provider_info = socialProviders[provider];
+    const config = OAUTH_CONFIG[provider];
     
-    // Create social login demo account immediately
-    const demoUserId = 'social_' + provider + '_' + Math.random().toString(36).substr(2, 9);
-    const demoUserData = {
-      id: demoUserId,
-      name: `${provider_info.name} User`,
-      email: `user.${provider}@example.com`,
-      provider: provider,
-      loginTime: new Date().toISOString(),
-      rememberMe: true
-    };
-
-    localStorage.setItem('mindmirror_user', JSON.stringify(demoUserData));
-    localStorage.setItem('mindmirror_user_id', demoUserId);
+    // Check if OAuth credentials are configured
+    const isProperlyConfigured = 
+      (provider === 'google' && config.clientId !== 'YOUR_GOOGLE_CLIENT_ID') ||
+      (provider === 'github' && config.clientId !== 'YOUR_GITHUB_CLIENT_ID') ||
+      (provider === 'apple' && config.clientId !== 'YOUR_APPLE_CLIENT_ID');
     
-    setSuccess(`✅ ${provider_info.name} login successful! (Demo Mode)`);
-    // Immediately proceed
-    onLoginSuccess(demoUserData);
+    if (isProperlyConfigured) {
+      // Production: Redirect to OAuth provider
+      window.location.href = config.getAuthUrl();
+    } else {
+      // Demo mode: Create demo account
+      const demoUser = getDemoUserData(provider);
+      const demoUserId = `social_${provider}_${Math.random().toString(36).substr(2, 9)}`;
+      
+      const demoUserData = {
+        id: demoUserId,
+        name: demoUser.name,
+        email: demoUser.email,
+        provider: provider,
+        avatar: demoUser.avatar,
+        loginTime: new Date().toISOString(),
+        rememberMe: true,
+        demoMode: true
+      };
+
+      localStorage.setItem('mindmirror_user', JSON.stringify(demoUserData));
+      localStorage.setItem('mindmirror_user_id', demoUserId);
+      
+      setSuccess(`✅ ${config.name} login successful! (Demo Mode)`);
+      // Immediately proceed
+      onLoginSuccess(demoUserData);
+    }
   };
 
   // Feature info handler - shows what each feature does
