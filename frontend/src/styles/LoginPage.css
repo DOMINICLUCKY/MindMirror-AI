@@ -450,34 +450,78 @@
 
 .social-login {
   display: flex;
-  gap: 12px;
+  flex-direction: column;
+  gap: 10px;
   margin-bottom: 16px;
 }
 
-.social-btn {
-  flex: 1;
-  padding: 12px;
+.social-login-btn {
+  width: 100%;
+  padding: 14px 16px;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 10px;
   color: white;
-  font-size: 22px;
+  font-size: 15px;
+  font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 12px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.social-btn:hover {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.25);
+.social-login-btn:hover {
+  background: rgba(255, 255, 255, 0.13);
+  border-color: rgba(255, 255, 255, 0.3);
   transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.15);
 }
 
-.google-btn:hover { box-shadow: 0 10px 30px rgba(245, 125, 32, 0.2); }
-.github-btn:hover { box-shadow: 0 10px 30px rgba(102, 102, 102, 0.2); }
-.apple-btn:hover { box-shadow: 0 10px 30px rgba(200, 50, 50, 0.2); }
+.social-login-btn:active {
+  transform: translateY(0);
+}
+
+.social-icon {
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.social-label {
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.google-login {
+  border-color: rgba(245, 125, 32, 0.3);
+}
+
+.google-login:hover {
+  background: rgba(245, 125, 32, 0.12);
+  box-shadow: 0 10px 30px rgba(245, 125, 32, 0.25);
+}
+
+.github-login {
+  border-color: rgba(102, 102, 102, 0.3);
+}
+
+.github-login:hover {
+  background: rgba(102, 102, 102, 0.12);
+  box-shadow: 0 10px 30px rgba(102, 102, 102, 0.25);
+}
+
+.apple-login {
+  border-color: rgba(200, 50, 50, 0.3);
+}
+
+.apple-login:hover {
+  background: rgba(200, 50, 50, 0.12);
+  box-shadow: 0 10px 30px rgba(200, 50, 50, 0.25);
+}
 
 /* ============= DEMO BUTTON ============= */
 

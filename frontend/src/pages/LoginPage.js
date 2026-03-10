@@ -82,25 +82,23 @@ function LoginPage({ onLoginSuccess, onShowSignup }) {
 
     const provider_info = socialProviders[provider];
     
-    setSuccess(`✅ ${provider_info.name} login in progress... (Demo Mode)`);
-    
-    // Simulate OAuth flow
-    setTimeout(() => {
-      const demoUserId = 'social_' + provider + '_' + Math.random().toString(36).substr(2, 9);
-      const demoUserData = {
-        id: demoUserId,
-        name: `User (${provider_info.name})`,
-        email: `user.${provider}@example.com`,
-        provider: provider,
-        loginTime: new Date().toISOString(),
-        rememberMe: true
-      };
+    // Create social login demo account immediately
+    const demoUserId = 'social_' + provider + '_' + Math.random().toString(36).substr(2, 9);
+    const demoUserData = {
+      id: demoUserId,
+      name: `${provider_info.name} User`,
+      email: `user.${provider}@example.com`,
+      provider: provider,
+      loginTime: new Date().toISOString(),
+      rememberMe: true
+    };
 
-      localStorage.setItem('mindmirror_user', JSON.stringify(demoUserData));
-      localStorage.setItem('mindmirror_user_id', demoUserId);
-      
-      onLoginSuccess(demoUserData);
-    }, 2000);
+    localStorage.setItem('mindmirror_user', JSON.stringify(demoUserData));
+    localStorage.setItem('mindmirror_user_id', demoUserId);
+    
+    setSuccess(`✅ ${provider_info.name} login successful! (Demo Mode)`);
+    // Immediately proceed
+    onLoginSuccess(demoUserData);
   };
 
   // Feature info handler - shows what each feature does
@@ -287,31 +285,31 @@ function LoginPage({ onLoginSuccess, onShowSignup }) {
             <span>or continue with</span>
           </div>
 
-          {/* Social Login */}
+          {/* Social Login - Full Width Buttons */}
           <div className="social-login">
             <button 
               type="button"
-              className="social-btn google-btn" 
-              title="Login with Google"
+              className="social-login-btn google-login" 
               onClick={() => handleSocialLogin('google')}
             >
-              <span>🔍</span>
+              <span className="social-icon">🔍</span>
+              <span className="social-label">Continue with Google</span>
             </button>
             <button 
               type="button"
-              className="social-btn github-btn" 
-              title="Login with GitHub"
+              className="social-login-btn github-login" 
               onClick={() => handleSocialLogin('github')}
             >
-              <span>💻</span>
+              <span className="social-icon">💻</span>
+              <span className="social-label">Continue with GitHub</span>
             </button>
             <button 
               type="button"
-              className="social-btn apple-btn" 
-              title="Login with Apple"
+              className="social-login-btn apple-login" 
               onClick={() => handleSocialLogin('apple')}
             >
-              <span>🍎</span>
+              <span className="social-icon">🍎</span>
+              <span className="social-label">Continue with Apple</span>
             </button>
           </div>
 
