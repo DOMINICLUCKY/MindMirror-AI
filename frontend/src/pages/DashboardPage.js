@@ -23,7 +23,7 @@ function DashboardPage({ onHome }) {
     fetchDashboardData();
   }, []);
 
-  const fetchDashboardData = async () => {
+  const fetchDashboardData = () => {
     try {
       // Get userId from localStorage
       const userId = localStorage.getItem('mindmirror_user_id');
@@ -33,7 +33,7 @@ function DashboardPage({ onHome }) {
         return;
       }
 
-      // Always use demo data (backend not needed for MVP testing)
+      // Demo data for dashboard
       const mockDashboard = {
         totalEntries: 5,
         averageBurnoutScore: 62,
@@ -72,10 +72,11 @@ function DashboardPage({ onHome }) {
       };
       
       setDashboardData(mockDashboard);
+      setLoading(false);
+      setError('');
     } catch (err) {
-      setError('Failed to load dashboard data');
       console.error('Dashboard error:', err);
-    } finally {
+      setError('Failed to load dashboard data');
       setLoading(false);
     }
   };

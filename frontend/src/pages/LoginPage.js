@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import ForgotPasswordPage from './ForgotPasswordPage';
-import OAUTH_CONFIG, { getDemoUserData } from '../config/oauth';
+import { signInWithPopup } from 'firebase/auth';
+import { auth, googleProvider } from '../config/firebaseConfig';
 import '../styles/LoginPage.css';
 
 function LoginPage({ onLoginSuccess, onShowSignup }) {
@@ -16,6 +17,10 @@ function LoginPage({ onLoginSuccess, onShowSignup }) {
   const [isSignupMode, setIsSignupMode] = useState(false);
   const [featureInfo, setFeatureInfo] = useState(null);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
+  
+  // Firebase authentication state
+  const [isAuthenticating, setIsAuthenticating] = useState(false);
+  const [authError, setAuthError] = useState('');
   
   // Signup state
   const [signupStep, setSignupStep] = useState(1);
@@ -71,42 +76,50 @@ function LoginPage({ onLoginSuccess, onShowSignup }) {
     }
   };
 
-  // Social login handlers
-  const handleSocialLogin = (provider) => {
-    const config = OAUTH_CONFIG[provider];
-    
-    // Check if OAuth credentials are configured
-    const isProperlyConfigured = 
-      (provider === 'google' && config.clientId !== 'YOUR_GOOGLE_CLIENT_ID') ||
-      (provider === 'github' && config.clientId !== 'YOUR_GITHUB_CLIENT_ID') ||
-      (provider === 'apple' && config.clientId !== 'YOUR_APPLE_CLIENT_ID');
-    
-    if (isProperlyConfigured) {
-      // Production: Redirect to OAuth provider
-      window.location.href = config.getAuthUrl();
-    } else {
-      // Demo mode: Create demo account
-      const demoUser = getDemoUserData(provider);
-      const demoUserId = `social_${provider}_${Math.random().toString(36).substr(2, 9)}`;
+  // Google Authentication with Firebase
+  const handleGoogleLogin = async () => {
+    setIsAuthenticating(true);
+    setAuthError('');
+
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const user = result.user;
+
+      console.log('Successfully logged in with Google:', user);
+
+      // Save user UID to localStorage
+      localStorage.setItem('mindmirror_user_id', user.uid);
       
-      const demoUserData = {
-        id: demoUserId,
-        name: demoUser.name,
-        email: demoUser.email,
-        provider: provider,
-        avatar: demoUser.avatar,
-        loginTime: new Date().toISOString(),
-        rememberMe: true,
-        demoMode: true
+      // Create user data object
+      const userData = {
+        id: user.uid,
+        name: user.displayName || user.email?.split('@')[0] || 'User',
+        email: user.email,
+        provider: 'google',
+        avatar: user.photoURL || '👤',
+        firebaseUid: user.uid
       };
 
-      localStorage.setItem('mindmirror_user', JSON.stringify(demoUserData));
-      localStorage.setItem('mindmirror_user_id', demoUserId);
+      localStorage.setItem('mindmirror_user', JSON.stringify(userData));
       
-      setSuccess(`✅ ${config.name} login successful! (Demo Mode)`);
-      // Immediately proceed
-      onLoginSuccess(demoUserData);
+      // Redirect to dashboard
+      onLoginSuccess(userData);
+    } catch (err) {
+      console.error('Google login error:', err);
+      setAuthError('Failed to sign in with Google. Please try again.');
+    } finally {
+      setIsAuthenticating(false);
     }
+  };
+
+  // GitHub login placeholder
+  const handleGithubLogin = () => {
+    console.log('GitHub login pending');
+  };
+
+  // Apple login placeholder
+  const handleAppleLogin = () => {
+    console.log('Apple login pending');
   };
 
   // Feature info handler - shows what each feature does
@@ -293,20 +306,38 @@ function LoginPage({ onLoginSuccess, onShowSignup }) {
             <span>or continue with</span>
           </div>
 
+          {/* Firebase Auth Error Message */}
+          {authError && (
+            <div className="message error-message">
+              <span>⚠️</span> {authError}
+            </div>
+          )}
+
           {/* Social Login - Full Width Buttons */}
           <div className="social-login">
             <button 
               type="button"
               className="social-login-btn google-login" 
-              onClick={() => handleSocialLogin('google')}
+              onClick={handleGoogleLogin}
+              disabled={isAuthenticating}
             >
-              <span className="social-icon">🔍</span>
-              <span className="social-label">Continue with Google</span>
+              {isAuthenticating ? (
+                <>
+                  <span className="social-icon">⏳</span>
+                  <span className="social-label">Signing in...</span>
+                </>
+              ) : (
+                <>
+                  <span className="social-icon">🔍</span>
+                  <span className="social-label">Continue with Google</span>
+                </>
+              )}
             </button>
             <button 
               type="button"
               className="social-login-btn github-login" 
-              onClick={() => handleSocialLogin('github')}
+              onClick={handleGithubLogin}
+              disabled={isAuthenticating}
             >
               <span className="social-icon">💻</span>
               <span className="social-label">Continue with GitHub</span>
@@ -314,7 +345,8 @@ function LoginPage({ onLoginSuccess, onShowSignup }) {
             <button 
               type="button"
               className="social-login-btn apple-login" 
-              onClick={() => handleSocialLogin('apple')}
+              onClick={handleAppleLogin}
+              disabled={isAuthenticating}
             >
               <span className="social-icon">🍎</span>
               <span className="social-label">Continue with Apple</span>
@@ -325,7 +357,8 @@ function LoginPage({ onLoginSuccess, onShowSignup }) {
           <button
             type="button"
             className="demo-btn"
-            onClick={() => handleSocialLogin('google')}
+            onClick={handleGoogleLogin}
+            disabled={isAuthenticating}
           >
             Try Demo Account
           </button>
